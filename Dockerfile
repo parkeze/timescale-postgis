@@ -18,7 +18,22 @@
 # (libgeos, libgdal, libproj, …) from that same release so no mixed-version
 # shared libraries end up on the path.
 
-ARG TIMESCALEDB_VERSION=2.17.2
+# This version is not cosmetic: it decides which timescaledb-<v>.so files end
+# up in the image, and PostgreSQL loads the one matching the extension version
+# recorded in the *data directory*, at server start, because timescaledb is in
+# shared_preload_libraries.
+#
+# Pinned at 2.17.2, this image shipped 2.17.0-2.17.2 only. The production
+# database at sensor_status_db has timescaledb 2.24.0 installed, so recreating
+# that container from an image built here would have failed to start the
+# server: no timescaledb-2.24.0.so on disk. The database was running from an
+# older image out of a registry that has since been deleted, which is how the
+# two drifted apart unnoticed.
+#
+# 2.25.1 is what the running database's own image was built from, and the
+# upstream image ships the whole ladder from 2.17.0 up, so it contains 2.24.0
+# and every version in between. Raise this to match production, never below it.
+ARG TIMESCALEDB_VERSION=2.25.1
 ARG PG_MAJOR=17
 
 FROM timescale/timescaledb:${TIMESCALEDB_VERSION}-pg${PG_MAJOR}

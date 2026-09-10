@@ -33,7 +33,7 @@ jobs:
           # rather than shipping something that breaks at CREATE EXTENSION.
           - pg_major: '17'
             alpine: '3.21'
-            timescaledb: '2.17.2'
+            timescaledb: '2.25.1'
             latest: true
 
     steps:

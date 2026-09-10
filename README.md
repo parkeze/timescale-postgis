@@ -83,7 +83,7 @@ docker build -t timescale-postgis .
 
 | Build arg | Default | Meaning |
 |---|---|---|
-| `TIMESCALEDB_VERSION` | `2.17.2` | Upstream TimescaleDB tag |
+| `TIMESCALEDB_VERSION` | `2.25.1` | Upstream TimescaleDB tag. Must be >= the extension version installed in any database this image will serve — PostgreSQL loads `timescaledb-<installed>.so` at start, so an image below it cannot start the server. |
 | `PG_MAJOR` | `17` | PostgreSQL major |
 | `ALPINE_VERSION` | `3.21` | Alpine release PostGIS is installed from |
 | `ALPINE_MIRROR` | `dl-cdn.alpinelinux.org` | Override for a local mirror |
